@@ -2,6 +2,8 @@
 
 # build.sh
 
+# git clone https://github.com/pybind/pybind11
+
 # --
 # Build
 
@@ -11,3 +13,4 @@ cd build
 cmake ..
 make -j12
 cd ..
+cp build/_deps/essentials-build/lib/pygunrock.so ./

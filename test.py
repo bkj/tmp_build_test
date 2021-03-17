@@ -8,7 +8,6 @@ import torch
 
 import sys
 sys.path.append('.')
-sys.path.append('build/_deps/essentials-build/lib/')
 import pygunrock as pyg
 
 import numpy as np
