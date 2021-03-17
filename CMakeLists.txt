@@ -21,7 +21,11 @@ set(ESSENTIALS_DIR ${CMAKE_SOURCE_DIR}/externals/essentials)
 # Build executables
 
 add_executable(my_sssp_test)
-target_sources(my_sssp_test 
+
+target_sources(
+  my_sssp_test 
   PRIVATE sssp.cu 
-  PRIVATE ${ESSENTIALS_DIR}/externals/mtx/mmio.cpp)
+  PRIVATE ${ESSENTIALS_DIR}/externals/mtx/mmio.cpp
+)
+
 target_link_libraries(my_sssp_test PRIVATE essentials)
