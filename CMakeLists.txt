@@ -5,38 +5,33 @@ include(cmake/CPM.cmake)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 # --
-# Include pytorch
+# User defined variables
 
-set(ANACONDA_PKG_PATH "$ENV{HOME}/anaconda3/pkgs")
+set(ANACONDA_PATH       $ENV{PYG_ANACONDA_PATH})
+set(CMAKE_PREFIX_PATH   $ENV{PYG_TORCH_DIR})
 
-set(CMAKE_PREFIX_PATH  "${ANACONDA_PKG_PATH}/pytorch-1.7.0-py3.7_cuda11.0.221_cudnn8.0.3_0/lib/python3.7/site-packages/torch")
-set(CUDNN_LIBRARY_PATH "${ANACONDA_PKG_PATH}/cudnn-8.0.0-cuda11.0_0/lib/libcudnn.so")
-set(CUDNN_INCLUDE_PATH "${ANACONDA_PKG_PATH}/cudnn-8.0.0-cuda11.0_0/include")
+# --
+# python + pytorch
 
-set(PYTHON_INCLUDE_PATH "$ENV{HOME}/anaconda3/include/python3.7m")
-set(PYTHON_LIBRARIES    "$ENV{HOME}/anaconda3/lib/libpython3.7m.so")
+set(PYTHON_INCLUDE_PATH ${ANACONDA_PATH}/include/python3.7m)
+set(PYTHON_LIBRARIES    ${ANACONDA_PATH}/lib/libpython3.7m.so)
 
-find_package(CUDA REQUIRED)
 find_package(PythonInterp 3.7 REQUIRED)
 find_package(PythonLibs 3.7 REQUIRED)
 
 find_package(Torch REQUIRED)
-message(${TORCH_INSTALL_PREFIX})
-find_library(TORCH_PYTHON_LIBRARY torch_python PATHS "${TORCH_INSTALL_PREFIX}/lib")
+find_library(TORCH_PYTHON_LIBRARY torch_python PATHS ${TORCH_INSTALL_PREFIX}/lib)
 
 include_directories(
   ${PYTHON_INCLUDE_DIRS}
   ./pybind11/include
 )
 
-link_directories(
-  /usr/local/cuda/lib64
-)
+# set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} --expt-relaxed-constexpr") # Uneeded, for now
 
 # --
-# Include essentials
+# essentials
 
-set(ESSENTIALS_DIR ${CMAKE_CURRENT_BINARY_DIR}/essentials CACHE STRING "Path to essentials repo")
 CPMAddPackage(
   NAME              Essentials
   GITHUB_REPOSITORY gunrock/essentials
@@ -47,32 +42,24 @@ CPMAddPackage(
 set(ESSENTIALS_DIR ${CMAKE_SOURCE_DIR}/externals/essentials)
 
 # --
-# Build executables
-
-# add_executable(pygunrock)
-# target_sources(
-#   pygunrock 
-#   PRIVATE interface.cu
-#   PRIVATE ${ESSENTIALS_DIR}/externals/mtx/mmio.cpp
-# )
+# pygunrock
 
 add_library(
   pygunrock 
   SHARED
-  interface.cu 
+  src/interface.cu 
   ${ESSENTIALS_DIR}/externals/mtx/mmio.cpp
 )
 
 target_include_directories(
   pygunrock
   PRIVATE
-  "${TORCH_INCLUDE_DIRS}"
+  ${TORCH_INCLUDE_DIRS}
 )
 
 target_link_libraries(
   pygunrock 
   essentials
-  ${PYTHON_LIBRARIES}
   ${TORCH_LIBRARIES}
   ${TORCH_PYTHON_LIBRARY}
 )

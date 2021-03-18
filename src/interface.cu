@@ -2,6 +2,8 @@
 
 // ?? Is there a way to automatically unwrap torch::Tensor to pointers, to reduce amount of glue code?
 
+#include <iostream>
+
 #include <pybind11/pybind11.h>
 #include <torch/extension.h>
 #include "gunrock/applications/sssp.hxx"
@@ -15,8 +17,8 @@ using namespace gunrock;
 template <
   memory::memory_space_t space,
   graph::view_t build_views,
-  typename vertex_type, 
-  typename edge_type, 
+  typename vertex_type,
+  typename edge_type,
   typename weight_type
 >
 auto from_csr(
@@ -61,17 +63,17 @@ void sssp_run(
 }
 
 PYBIND11_MODULE(pygunrock, m) {
-  
+
   // --
   // Typedefs
-  
+
   using vertex_t    = int;
   using edge_t      = int;
   using weight_t    = float;
-  
+
   constexpr graph::memory_space_t space = memory::memory_space_t::device;
   constexpr graph::view_t build_views = graph::view_t::csr;
-  
+
   using graph_type = decltype(from_csr<space, build_views, vertex_t, edge_t, weight_t>(
     std::declval<vertex_t>(),
     std::declval<vertex_t>(),
@@ -80,10 +82,10 @@ PYBIND11_MODULE(pygunrock, m) {
     std::declval<torch::Tensor>(),
     std::declval<torch::Tensor>()
   ));
-  
+
   // --
   // Interface
-  
+
   py::class_<graph_type>(m, "CSRGraph")
     .def("get_number_of_vertices" , &graph_type::get_number_of_vertices)
     .def("get_number_of_edges"    , &graph_type::get_number_of_edges)

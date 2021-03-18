@@ -41,4 +41,3 @@ for single_source in [0, 1, 2]:
   _ = pyg.sssp(G, single_source, distances, predecessors)
   print(distances)
   # print(predecessors)
-
