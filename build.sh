@@ -7,7 +7,10 @@
 # --
 # Build
 
+rm -rf externals
 rm -rf build
+rm -f pygunrock.so
+
 mkdir build
 cd build
 cmake ..
