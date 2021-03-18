@@ -5,9 +5,9 @@
 # --
 # Install anaconda
 
-wget https://repo.anaconda.com/archive/Anaconda3-2020.11-Linux-x86_64.sh
-bash Anaconda3-2020.11-Linux-x86_64.sh
-rm Anaconda3-2020.11-Linux-x86_64.sh
+# wget https://repo.anaconda.com/archive/Anaconda3-2020.11-Linux-x86_64.sh
+# bash Anaconda3-2020.11-Linux-x86_64.sh
+# rm Anaconda3-2020.11-Linux-x86_64.sh
 
 # --
 # Setup environment
@@ -19,8 +19,7 @@ conda activate pyg_env
 conda install -y -c pytorch -c conda-forge \
     pytorch=1.8.0 cudatoolkit=11.1 
 
-pip install scipy
-pip install tqdm
+pip install scipy==1.6
 
 # --
 # pybind11
