@@ -12,7 +12,6 @@ import pygunrock as pyg
 
 import numpy as np
 from time import time
-from tqdm import trange
 from scipy.io import mmread
 
 np.set_printoptions(linewidth=240)
