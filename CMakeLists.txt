@@ -8,12 +8,12 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 # User defined vars
 
 set(ANACONDA_PATH $ENV{ANACONDA_PATH})
-set(PYTORCH_VERSION $ENV{PYTORCH_VERSION})
+# set(PYTORCH_VERSION $ENV{PYTORCH_VERSION})
 
 # --
 # Include pytorch
 
-set(CMAKE_PREFIX_PATH  ${ANACONDA_PATH}/pkgs/${PYTORCH_VERSION}/lib/python3.7/site-packages/torch)
+set(CMAKE_PREFIX_PATH  ${ANACONDA_PATH}/lib/python3.7/site-packages/torch)
 # set(CUDNN_LIBRARY_PATH "${ANACONDA_PATH}/pkgs/cudnn-8.0.0-cuda11.0_0/lib/libcudnn.so")
 # set(CUDNN_INCLUDE_PATH "${ANACONDA_PATH}/pkgs/cudnn-8.0.0-cuda11.0_0/include")
 set(PYTHON_INCLUDE_PATH ${ANACONDA_PATH}/include/python3.7m)
